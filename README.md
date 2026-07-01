@@ -17,23 +17,20 @@ This is a Windows-compatible fork of [kcchien/claude-code-statusline](https://gi
 
 ### All states
 
-**Warning** (75% context)
-![Warning](docs/images/warning.svg)
-
-**Danger** (92% context, high rate limits)
-![Danger](docs/images/danger.svg)
-
-**Dirty branch, ahead/behind upstream**
-![Git status](docs/images/git-status.svg)
-
-**Active worktree**
-![Worktree](docs/images/worktree.svg)
-
-**Active subagent**
-![Agent](docs/images/agent.svg)
-
-**ASCII fallback** (`CLAUDE_STATUSLINE_ASCII=1`)
-![ASCII](docs/images/ascii.svg)
+<table>
+<tr>
+<td><b>Warning</b> (75% context)<br><img src="docs/images/warning.svg" alt="Warning"></td>
+<td><b>Danger</b> (92% context, high rate limits)<br><img src="docs/images/danger.svg" alt="Danger"></td>
+</tr>
+<tr>
+<td><b>Dirty branch, ahead/behind upstream</b><br><img src="docs/images/git-status.svg" alt="Git status"></td>
+<td><b>Active worktree</b><br><img src="docs/images/worktree.svg" alt="Worktree"></td>
+</tr>
+<tr>
+<td><b>Active subagent</b><br><img src="docs/images/agent.svg" alt="Agent"></td>
+<td><b>ASCII fallback</b> (<code>CLAUDE_STATUSLINE_ASCII=1</code>)<br><img src="docs/images/ascii.svg" alt="ASCII"></td>
+</tr>
+</table>
 
 These are real, exact renders — not screenshots. `tools/render_svg.py` parses the actual ANSI/truecolor escape codes `statusline.sh` outputs and draws them as SVG text, so every image is pixel-accurate to what the script really produces and stays cheap to regenerate:
 
