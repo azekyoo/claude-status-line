@@ -66,7 +66,7 @@ This fork fixes all four, plus adds the gradient/rate-limit/git features above.
 ## Install
 
 ```bash
-git clone <this-repo-url>
+git clone https://github.com/azekyoo/claude-status-line.git
 cd claude-status-line
 ./install.sh
 ```
