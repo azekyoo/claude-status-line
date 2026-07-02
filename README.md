@@ -35,8 +35,6 @@ This is a Windows-compatible fork of [kcchien/claude-code-statusline](https://gi
 **ASCII fallback** (`CLAUDE_STATUSLINE_ASCII=1`)
 ![ASCII](docs/images/ascii.svg?v=3)
 
-These are real, exact renders of `statusline.sh`'s actual ANSI/truecolor output against hardcoded mock states — not manual screenshots. (Generated with a small internal dev script, kept out of this repo — not needed to use or configure the status line.)
-
 ## Why this fork exists
 
 The original script assumes a macOS/Linux bash + native `jq`. On Windows (git-bash), four things break silently:
