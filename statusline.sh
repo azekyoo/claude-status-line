@@ -200,6 +200,19 @@ make_bar() {
   printf '%s' "$out"
 }
 
+# Formats a Unix epoch as local clock time: "14:32" if today, "Thu 14:32"
+# otherwise (the 7d reset is usually a different day).
+format_reset_clock() {
+  local epoch="$1" today tgt_day
+  today=$(date +%Y%m%d)
+  tgt_day=$(date -d "@${epoch}" +%Y%m%d 2>/dev/null)
+  if [[ "$tgt_day" == "$today" ]]; then
+    date -d "@${epoch}" +%H:%M 2>/dev/null
+  else
+    date -d "@${epoch}" '+%a %H:%M' 2>/dev/null
+  fi
+}
+
 # ═══════════════════════════════════════════════════════════════
 # Fallback output
 # ═══════════════════════════════════════════════════════════════
@@ -238,6 +251,8 @@ parsed=$(echo "$input" | "$JQ_BIN" -r '
   (.cost.total_duration_ms // 0 | tostring),
   (.context_window.context_window_size // 0 | tostring),
   (.worktree.name // ""),
+  (.rate_limits.five_hour.resets_at // 0 | tostring),
+  (.rate_limits.seven_day.resets_at // 0 | tostring),
   "END"
 ' 2>/dev/null) || fallback_prompt "─ │ parse error"
 
@@ -259,6 +274,8 @@ parsed="${parsed//$'\r'/}"
   IFS= read -r duration_ms
   IFS= read -r ctx_size
   IFS= read -r wt_name
+  IFS= read -r reset5h_at
+  IFS= read -r reset7d_at
   IFS= read -r _sentinel
 } <<< "$parsed"
 
@@ -406,10 +423,16 @@ rate_section=""
 rate5h_int=${rate5h%.*}; rate5h_int=${rate5h_int:-0}
 rate7d_int=${rate7d%.*}; rate7d_int=${rate7d_int:-0}
 
+reset5h_at=${reset5h_at:-0}
+reset7d_at=${reset7d_at:-0}
+
 rate_parts=""
 if (( rate5h_int >= 0 )); then
   read -r er eg eb <<< "$(pct_gradient_rgb "$rate5h_int")"
   rate_parts+="$(gradient_text "5h:${rate5h_int}%" 46 204 113 "$er" "$eg" "$eb" "$GREEN") $(make_bar "$rate5h_int" 10)"
+  if (( reset5h_at > 0 )); then
+    rate_parts+=" ${GRAY}↻ $(format_reset_clock "$reset5h_at")${RST}"
+  fi
 else
   rate_parts+="${GRAY}5h:--%${RST} $(make_bar 0 10)"
 fi
@@ -417,6 +440,9 @@ rate_parts+="${SEP}"
 if (( rate7d_int >= 0 )); then
   read -r er eg eb <<< "$(pct_gradient_rgb "$rate7d_int")"
   rate_parts+="$(gradient_text "7d:${rate7d_int}%" 46 204 113 "$er" "$eg" "$eb" "$GREEN") $(make_bar "$rate7d_int" 10)"
+  if (( reset7d_at > 0 )); then
+    rate_parts+=" ${GRAY}↻ $(format_reset_clock "$reset7d_at")${RST}"
+  fi
 else
   rate_parts+="${GRAY}7d:--%${RST} $(make_bar 0 10)"
 fi
