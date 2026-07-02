@@ -49,7 +49,7 @@ This fork fixes all four, plus adds the gradient/rate-limit/git features above.
 ## Requirements
 
 - Claude Code
-- A bash-compatible shell — on Windows this means **Git for Windows** (git-bash), which you almost certainly already have if you use `git`.
+- `bash.exe` present on disk — on Windows this comes bundled with **Git for Windows**, which you almost certainly already have installed if the `git` command works for you. You don't need to use bash as your shell; Claude Code invokes it silently as a subprocess to run the script, regardless of whether you work in PowerShell, cmd, or anything else.
 - `jq` — the installer fetches a static binary for you if missing.
 - A truecolor-capable terminal for the full gradient experience (Windows Terminal, VS Code's integrated terminal, iTerm2, most modern Linux terminals). Falls back gracefully otherwise.
 
