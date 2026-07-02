@@ -53,7 +53,15 @@ This fork fixes all four, plus adds the gradient/rate-limit/git features above.
 - `jq` — the installer fetches a static binary for you if missing.
 - A truecolor-capable terminal for the full gradient experience (Windows Terminal, VS Code's integrated terminal, iTerm2, most modern Linux terminals). Falls back gracefully otherwise.
 
-## Install
+## Quick install (via Claude Code)
+
+Paste this into Claude Code:
+
+```
+Install the Claude Code status line from https://github.com/azekyoo/claude-status-line — clone it, run install.sh, and add the statusLine block to my ~/.claude/settings.json.
+```
+
+## Manual install
 
 ```bash
 git clone https://github.com/azekyoo/claude-status-line.git
