@@ -202,14 +202,21 @@ make_bar() {
 
 # Formats a Unix epoch as local clock time: "14:32" if today, "Thu 14:32"
 # otherwise (the 7d reset is usually a different day).
+# Portable epoch formatting: GNU `date -d @epoch` (Linux, git-bash) first,
+# falling back to BSD `date -r epoch` (stock macOS, no coreutils needed).
+date_from_epoch() {
+  local epoch="$1" fmt="$2"
+  date -d "@${epoch}" "$fmt" 2>/dev/null || date -r "${epoch}" "$fmt" 2>/dev/null
+}
+
 format_reset_clock() {
   local epoch="$1" today tgt_day
   today=$(date +%Y%m%d)
-  tgt_day=$(date -d "@${epoch}" +%Y%m%d 2>/dev/null)
+  tgt_day=$(date_from_epoch "$epoch" +%Y%m%d)
   if [[ "$tgt_day" == "$today" ]]; then
-    date -d "@${epoch}" +%H:%M 2>/dev/null
+    date_from_epoch "$epoch" +%H:%M
   else
-    date -d "@${epoch}" '+%a %H:%M' 2>/dev/null
+    date_from_epoch "$epoch" '+%a %H:%M'
   fi
 }
 
