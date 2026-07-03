@@ -131,7 +131,7 @@ All via environment variables (set them in `~/.bashrc`, or `env` in `settings.js
 
 - Cost (`$`) is parsed from the JSON payload but intentionally not displayed — on a Claude subscription plan it's a notional API-equivalent estimate, not a real charge, and was more confusing than useful.
 - Elapsed session time is likewise parsed but not shown, by request — feel free to re-enable by reading `duration_ms` and building a `Xm Ys` string if you want it back.
-- Git branch/dirty/ahead-behind status is cached for 5 seconds (`/tmp/claude-statusline-git-cache`) to keep the status line fast on large repos.
+- Git branch/dirty/ahead-behind status is cached for 5 seconds (`/tmp/claude-statusline-git-cache-<hash>`, one file per working directory) to keep the status line fast on large repos.
 
 ## License
 
